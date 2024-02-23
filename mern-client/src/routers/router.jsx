@@ -8,6 +8,11 @@ import Shop from "../shop/Shop";
 import About from "../components/About";
 import Blog from "../components/Blog";
 import SingleBook from "../shop/SingleBook";
+import DashboardLayout from "../dashboard/DashboardLayout";
+import Dashboard from "../dashboard/Dashboard";
+import UploadBooks from "../dashboard/UploadBooks";
+import ManageBooks from "../dashboard/ManageBooks";
+import EditBooks from "../dashboard/EditBooks";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +42,29 @@ const router = createBrowserRouter([
       }
     ]
   },
+  {
+    path: "/admin/dashboard",
+    element: <DashboardLayout/>,
+    children:[
+      {
+        path: "/admin/dashboard",
+        element:<Dashboard/>
+      },
+      {
+        path: "/admin/dashboard/upload",
+        element: <UploadBooks/>
+      },
+      {
+        path: "/admin/dashboard/manage",
+        element: <ManageBooks/>
+      },
+      {
+        path: "/admin/dashboard/edit-books/:id",
+        element: <EditBooks/>,
+        loader: ({params}) => fetch(`http://localhost:5000/book/${params.id}`)
+      }
+  ]
+  }
 ]);
 
 export default router;

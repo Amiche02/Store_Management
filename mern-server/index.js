@@ -48,30 +48,32 @@ async function run() {
     });*/
 
     //Update a book data: patch or update methods
-    app.patch("/book/:id", async (req, res) => {
-    const id = req.params.id;
-    const updateBookdata = req.body;
-    const filter = { _id: new ObjectId(id) }; // Modification ici
-    const options = { upsert: true };
+    //Update a book data: patch or update methods
+      app.patch("/book/:id", async (req, res) => {
+        const id = req.params.id;
+        const updateBookdata = req.body;
+        const filter = { _id: new ObjectId(id) }; 
+        const updateDoc = {
+          $set: {
+            ...updateBookdata
+          }
+        }
+        const options = { upsert: true };
 
-    const updateDoc = {
-      $set: {
-        ...updateBookdata
-      }
-    }
+        try {
+          // UPDATE
+          const result = await bookCollections.updateOne(filter, updateDoc, options);
 
-    // UPDATE
-    const result = await bookCollections.updateOne(filter, updateDoc, options);
-    res.send(result);
-    });
-
-    //Delete a book: delete method
-    app.delete("/book/:id", async (req, res) => {
-      const id = req.params.id;
-      const filter = { _id: new ObjectId(id) };
-      const result = await bookCollections.deleteOne(filter);
-      res.send(result);
-    });
+          if (result.modifiedCount > 0) {
+            res.send({ message: "Book updated successfully" });
+          } else {
+            res.status(404).send({ error: "Book not found or data unchanged" });
+          }
+        } catch (error) {
+          console.error("Error updating book:", error);
+          res.status(500).send({ error: "Internal server error" });
+        }
+      });
 
     //find by category
     app.get("/all-books", async(req, res) =>{
