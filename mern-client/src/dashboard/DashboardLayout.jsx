@@ -1,15 +1,21 @@
-import { Sidebar } from 'flowbite-react'
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import SideBar from './SideBar'
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import SideBar from './SideBar';
+import Navbar from '../components/Navbar'
+
 
 function DashboardLayout() {
   return (
-    <div className='flex gap-4 flex-col md:flex-row'>
-        <SideBar/>
-        <Outlet/>
+    // Utilisez `className` au lieu de `className`
+    // Ajoutez des classes flexbox pour un alignement horizontal avec un espacement
+    <div className='flex flex-row gap-4'>
+        <Navbar/>
+        <SideBar />
+        <div className='flex-1'>
+            <Outlet />
+        </div>
     </div>
-  )
+  );
 }
 
-export default DashboardLayout
+export default DashboardLayout;

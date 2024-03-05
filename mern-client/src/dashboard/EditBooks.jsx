@@ -6,39 +6,13 @@ import { Button, Checkbox, Label, Select, TextInput, Textarea } from 'flowbite-r
 function EditBooks() {
   const {id} = useParams();
   const {bookTitle, authorName, imagesURL, category, bookDescription, bookPdfURL, bookPrice} = useLoaderData();
+  
 
-    const bookCategories = [
-    "Fiction",
-    "Poetry",
-    "Non-Fiction",
-    "AI",
-    "Machine Learrning",
-    "Data",
-    "Informatique",
-    "Mistery",
-    "Action",
-    "Programming",
-    "Science Fiction",
-    "Science",
-    "Research",
-    "Fantasy",
-    "Horror",
-    "Bibliography",
-    "Autobiography",
-    "History",
-    "Self-help",
-    "Memoir",
-    "Business",
-    "Children Books",
-    "Travel",
-    "Religion",
-    "Art and Design",
-    "comic",
-    "cookbook",
-    "classic"
-    ]
+  const bookCategories = ["Fiction", "Poetry", "Non-Fiction", "AI", "Machine Learrning", "Data", "Informatique", "Mistery", "Action",
+    "Programming", "Science Fiction", "Science", "Research", "Fantasy", "Horror", "Bibliography", "Autobiography", "History",
+    "Self-help", "Memoir", "Business", "Children Books", "Travel", "Religion", "Art and Design", "comic", "cookbook", "classNameic"]
 
-    const [selectedBookCategory, setSelectedBookCategory] = useState(bookCategories[0])
+    const [selectedBookCategory, setSelectedBookCategory] = useState(category);
 
     const handleChangeSelectedValue = (event) => {
       console.log(event.target.value)
@@ -59,17 +33,18 @@ function EditBooks() {
       const bookPdfURL = form.bookPdfURL.value;
       const bookPrice = parseFloat(form.bookPrice.value);
 
+      const userData = JSON.parse(localStorage.getItem('userData'));
+      const { username, email } = userData;
+
       const updateBookObj = {
-        bookTitle, authorName, imagesURL, category, bookDescription, bookPdfURL, bookPrice
+        bookTitle, authorName, imagesURL, category, bookDescription, bookPdfURL, bookPrice, username
       }
 
       //console.log(bookObj)
       //Update book data
       fetch(`http://localhost:5000/update-book/${id}`, {
         method: "PATCH",
-        headers: {
-          "content-ttype": "application/json",
-        },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(updateBookObj)
       }).then((res) => res.json()).then(data => {
         // console.log(data)
@@ -158,7 +133,8 @@ function EditBooks() {
         <Button type="submit">Update</Button>
       </form>
     </div>
-  )
+  );
 }
+
 
 export default EditBooks

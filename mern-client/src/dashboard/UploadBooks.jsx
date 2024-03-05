@@ -2,44 +2,18 @@ import React, { useState } from 'react'
 import { Button, Checkbox, Label, Select, TextInput, Textarea } from 'flowbite-react';
 
 function UploadBooks() {
-  const bookCategories = [
-    "Fiction",
-    "Poetry",
-    "Non-Fiction",
-    "AI",
-    "Machine Learrning",
-    "Data",
-    "Informatique",
-    "Mistery",
-    "Action",
-    "Programming",
-    "Science Fiction",
-    "Science",
-    "Research",
-    "Fantasy",
-    "Horror",
-    "Bibliography",
-    "Autobiography",
-    "History",
-    "Self-help",
-    "Memoir",
-    "Business",
-    "Children Books",
-    "Travel",
-    "Religion",
-    "Art and Design",
-    "comic",
-    "cookbook",
-    "classic"
-    ]
+  const bookCategories = ["Fiction", "Poetry", "Non-Fiction", "AI", "Machine Learrning", "Data", "Informatique", "Mistery", "Action",
+    "Programming", "Science Fiction", "Science", "Research", "Fantasy", "Horror", "Bibliography", "Autobiography", "History",
+    "Self-help", "Memoir", "Business", "Children Books", "Travel", "Religion", "Art and Design", "comic", "cookbook", "classNameic"]
 
     const [selectedBookCategory, setSelectedBookCategory] = useState(bookCategories[0])
 
     const handleChangeSelectedValue = (event) => {
-      console.log(event.target.value)
+      // console.log(event.target.value)
       setSelectedBookCategory(event.target.value)
     }
 
+        
 
   // handle book submission *
   const handleBookSubmit = (event) => {
@@ -53,9 +27,12 @@ function UploadBooks() {
       const bookDescription = form.bookDescription.value;
       const bookPdfURL = form.bookPdfURL.value;
       const bookPrice = parseFloat(form.bookPrice.value);
+      
+      const userData = JSON.parse(localStorage.getItem('userData'));
+      const { username, email } = userData;
 
       const bookObj = {
-        bookTitle, authorName, imagesURL, category, bookDescription, bookPdfURL, bookPrice
+        bookTitle, authorName, imagesURL, category, bookDescription, bookPdfURL, bookPrice, username
       }
 
       console.log(bookObj)
